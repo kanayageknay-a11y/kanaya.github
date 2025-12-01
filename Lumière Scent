@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumière Scent – Luxury Fragrance</title>
+
+    <style>
+        /* ------------------- GLOBAL STYLE ------------------- */
+        body {
+            margin: 0;
+            font-family: "Playfair Display", serif;
+            background-color: #0c0c0c;
+            color: #fff;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* GOLD GRADIENT */
+        :root {
+            --gold: linear-gradient(90deg, #b08d57, #f6e27a, #c9a86e);
+        }
+
+        /* ------------------- NAVBAR ------------------- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background-color: rgba(0, 0, 0, 0.6);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 99;
+            backdrop-filter: blur(5px);
+        }
+
+        /* LOGO (SVG GOLD) */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            background: var(--gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+            letter-spacing: 3px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li {
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        nav ul li:hover {
+            transform: scale(1.1);
+        }
+
+        /* CART ICON */
+        #cart-btn {
+            cursor: pointer;
+            position: relative;
+        }
+
+        #cart-count {
+            position: absolute;
+            top: -7px;
+            right: -10px;
+            background: gold;
+            color: #000;
+            border-radius: 50%;
+            padding: 3px 7px;
+            font-size: 0.7rem;
+        }
+
+        /* ------------------- HERO SECTION ------------------- */
+        header {
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1523293836064-9c54ca0e1f83?auto=format&fit=crop&w=1400&q=85') 
+                        center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 5rem;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            background: var(--gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        header p {
+            font-size: 1.4rem;
+            opacity: 0.8;
+            margin-top: -10px;
+            animation: fadeIn 2.5s;
+        }
+
+        .btn {
+            padding: 14px 35px;
+            border: 1px solid #fff;
+            margin-top: 35px;
+            display: inline-block;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--gold);
+            color: #000;
+            border-color: transparent;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ------------------- SECTION ------------------- */
+        .section {
+            padding: 100px 10%;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.6rem;
+            margin-bottom: 20px;
+            background: var(--gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ------------------- PRODUCT GRID ------------------- */
+        .products {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            width: 300px;
+            background-color: #161616;
+            padding: 20px;
+            border-radius: 15px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        .price {
+            margin: 10px 0;
+            font-size: 1.2rem;
+            color: gold;
+        }
+
+        .add-cart {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: 1px solid gold;
+            color: gold;
+            background: transparent;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .add-cart:hover {
+            background: gold;
+            color: #000;
+        }
+
+        /* ------------------- CART PANEL ------------------- */
+        #cart-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 350px;
+            height: 100vh;
+            background-color: #111;
+            padding: 20px;
+            transition: 0.4s;
+            z-index: 200;
+            overflow-y: auto;
+        }
+
+        #cart-panel.open {
+            right: 0;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid #333;
+            padding: 10px 0;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background: gold;
+            border: none;
+            color: #000;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #000;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ------------------- NAVBAR ------------------- -->
+    <nav>
+        <div class="logo">
+            <!-- GOLD LUXURY LOGO SVG -->
+            <svg width="40" height="40" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="url(#gold)" stroke="#c9a86e" stroke-width="3"/>
+                <text x="50%" y="57%" font-size="42" fill="black" text-anchor="middle" font-family="Playfair Display">L</text>
+                <defs>
+                    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#b08d57"/>
+                        <stop offset="50%" stop-color="#f6e27a"/>
+                        <stop offset="100%" stop-color="#c9a86e"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <span class="logo-text">Lumière Scent</span>
+        </div>
+
+        <ul>
+            <li>Home</li>
+            <li>Koleksi</li>
+            <li>Tentang</li>
+        </ul>
+
+        <div id="cart-btn">
+            🛒
+            <span id="cart-count">0</span>
+        </div>
+    </nav>
+
+    <!-- ------------------- HERO ------------------- -->
+    <header>
+        <div>
+            <h1>Lumière Scent</h1>
+            <p>Exclusive Fragrances for the Connoisseur</p>
+            <a href="#koleksi" class="btn">JELAJAHI KOLEKSI</a>
+        </div>
+    </header>
+
+    <!-- ------------------- ABOUT SECTION ------------------- -->
+    <section class="section">
+        <h2>Tentang Kami</h2>
+        <p>Lumière Scent menghadirkan aroma eksklusif terbaik dari bahan premium dunia, dirancang dengan presisi dan seni perfumery kelas tinggi.</p>
+    </section>
+
+    <!-- ------------------- PRODUCTS ------------------- -->
+    <section class="section" id="koleksi">
+        <h2>Koleksi Signature</h2>
+
+        <div class="products">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1590156113973-42c651df54b4?auto=format&fit=crop&w=600&q=80">
+                <h3>Lumière Royale</h3>
+                <p class="price">Rp 2.499.000</p>
+                <button class="add-cart" data-name="Lumière Royale" data-price="2499000">Tambah ke Keranjang</button>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1585386959984-a4155223f8db?auto=format&fit=crop&w=600&q=80">
+                <h3>Étoile Noire</h3>
+                <p class="price">Rp 2.799.000</p>
+                <button class="add-cart" data-name="Étoile Noire" data-price="2799000">Tambah ke Keranjang</button>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1557170334-a9632e77b02d?auto=format&fit=crop&w=600&q=80">
+                <h3>Lumière Blanche</h3>
+                <p class="price">Rp 2.299.000</p>
+                <button class="add-cart" data-name="Lumière Blanche" data-price="2299000">Tambah ke Keranjang</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ------------------- CART PANEL ------------------- -->
+    <div id="cart-panel">
+        <h2>Keranjang Belanja</h2>
+        <div id="cart-items"></div>
+        <button class="checkout-btn">Checkout</button>
+    </div>
+
+    <!-- ------------------- FOOTER ------------------- -->
+    <footer>
+        © 2025 Lumière Scent — All Rights Reserved.
+    </footer>
+
+    <!-- ------------------- JAVASCRIPT ------------------- -->
+    <script>
+        const cartBtn = document.getElementById("cart-btn");
+        const cartPanel = document.getElementById("cart-panel");
+        const cartCount = document.getElementById("cart-count");
+        const cartItems = document.getElementById("cart-items");
+
+        let cart = [];
+
+        cartBtn.onclick = () => cartPanel.classList.toggle("open");
+
+        document.querySelectorAll(".add-cart").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const name = btn.dataset.name;
+                const price = btn.dataset.price;
+
+                cart.push({ name, price });
+                cartCount.textContent = cart.length;
+
+                renderCart();
+            });
+        });
+
+        function renderCart() {
+            cartItems.innerHTML = "";
+            cart.forEach(item => {
+                const div = document.createElement("div");
+                div.classList.add("cart-item");
+                div.innerHTML = `<b>${item.name}</b><br>Rp ${Number(item.price).toLocaleString()}`;
+                cartItems.appendChild(div);
+            });
+        }
+    </script>
+
+</body>
+</html>
